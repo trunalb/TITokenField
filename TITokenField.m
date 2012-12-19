@@ -8,6 +8,7 @@
 
 #import "TITokenField.h"
 #import <QuartzCore/QuartzCore.h>
+#import "UIView+RPViewUtils.h"
 
 //==========================================================
 #pragma mark - TITokenFieldView -
@@ -98,7 +99,11 @@
 	else
 	{
 		resultsTable = [[UITableView alloc] initWithFrame:CGRectMake(0, tokenFieldBottom + 1, self.bounds.size.width, 10)];
-		[resultsTable setSeparatorColor:[UIColor colorWithWhite:0.85 alpha:1]];
+    //@photolabmodified
+//		[resultsTable setSeparatorColor:[UIColor colorWithWhite:0.85 alpha:1]];
+		[resultsTable setSeparatorColor:[UIColor blackColor]];
+    //@endphotolabmodified
+    
 		[resultsTable setBackgroundColor:[UIColor colorWithRed:0.92 green:0.92 blue:0.92 alpha:1]];
 		[resultsTable setDelegate:self];
 		[resultsTable setDataSource:self];
@@ -760,6 +765,9 @@ NSString * const kTextHidden = @"\u200D"; // Zero-Width Joiner
 			label = [[UILabel alloc] initWithFrame:CGRectZero];
 			[label setTextColor:[UIColor colorWithWhite:0.5 alpha:1]];
 			[self setLeftView:label];
+      //@photolabmodified
+      label.backgroundColor = [UIColor clearColor];
+      //@endphotolabmodified
 			[label release];
 			
 			[self setLeftViewMode:UITextFieldViewModeAlways];
