@@ -59,6 +59,12 @@
 //==========================================================
 #pragma mark - TITokenFieldView -
 //==========================================================
+
+typedef enum {
+	TITokenFieldPositionTop = 0,
+	TITokenFieldPositionBottom = 1,
+} TITokenFieldPosition;
+
 @interface TITokenFieldView : UIScrollView <UITableViewDelegate, UITableViewDataSource, TITokenFieldDelegate> {
 	
 	BOOL showAlreadyTokenized;
@@ -73,6 +79,8 @@
 	TITokenField * tokenField;
 	
 	UIPopoverController * popoverController;
+  
+  TITokenFieldPosition tokenFieldPosition;
 }
 
 @property (nonatomic, assign) BOOL showAlreadyTokenized;
@@ -82,6 +90,7 @@
 @property (nonatomic, readonly) UIView * contentView;
 @property (nonatomic, copy) NSArray * sourceArray;
 @property (nonatomic, readonly) NSArray * tokenTitles;
+@property (nonatomic, assign) TITokenFieldPosition tokenFieldPosition;
 
 - (void)updateContentSize;
 

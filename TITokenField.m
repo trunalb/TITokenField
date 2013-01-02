@@ -31,6 +31,7 @@
 @synthesize contentView;
 @synthesize separator;
 @synthesize sourceArray;
+@synthesize tokenFieldPosition;
 
 #pragma mark Init
 - (id)initWithFrame:(CGRect)frame {
@@ -110,7 +111,7 @@
 		[resultsTable setHidden:YES];
 		[self addSubview:resultsTable];
 		[resultsTable release];
-		
+    
 		popoverController = nil;
 	}
 	
@@ -146,6 +147,19 @@
 
 - (NSArray *)tokenTitles {
 	return tokenField.tokenTitles;
+}
+
+-(void)setTokenFieldPosition:(TITokenFieldPosition)aTokenFieldPosition{
+  
+  if (aTokenFieldPosition == TITokenFieldPositionBottom) {
+    //change the frame
+    CGFloat distanceFromTop = [PhotozUtil screenHeight] - 216 - self.tokenField.height;
+    [self.tokenField setY: distanceFromTop];
+    [self.separator  setY: distanceFromTop - 1];
+    [self.resultsTable setY:0];
+//    [self.resultsTable setHeight:500];
+  }
+  tokenFieldPosition = aTokenFieldPosition;
 }
 
 #pragma mark Event Handling
@@ -242,9 +256,9 @@
 - (void)tokenFieldFrameWillChange:(TITokenField *)field {
 	
 	CGFloat tokenFieldBottom = CGRectGetMaxY(tokenField.frame);
-	[separator setFrame:((CGRect){{separator.frame.origin.x, tokenFieldBottom}, separator.bounds.size})];
-	[resultsTable setFrame:((CGRect){{resultsTable.frame.origin.x, (tokenFieldBottom + 1)}, resultsTable.bounds.size})];
-	[contentView setFrame:((CGRect){{contentView.frame.origin.x, (tokenFieldBottom + 1)}, contentView.bounds.size})];
+    [separator setFrame:((CGRect){{separator.frame.origin.x, tokenFieldBottom}, separator.bounds.size})];
+    [resultsTable setFrame:((CGRect){{resultsTable.frame.origin.x, (tokenFieldBottom + 1)}, resultsTable.bounds.size})];
+    [contentView setFrame:((CGRect){{contentView.frame.origin.x, (tokenFieldBottom + 1)}, contentView.bounds.size})];
 }
 
 - (void)tokenFieldFrameDidChange:(TITokenField *)field {
@@ -304,10 +318,10 @@
 	// If the source is massive, this could take some time.
 	// You could always subclass and override this if needed or do it on a background thread.
 	// GCD would be great for that.
-	
+
 	[resultsArray removeAllObjects];
 	[resultsTable reloadData];
-	
+
 	searchString = [searchString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	
 	if (searchString.length){
@@ -738,7 +752,7 @@ NSString * const kTextHidden = @"\u200D"; // Zero-Width Joiner
 - (void)setResultsModeEnabled:(BOOL)flag animated:(BOOL)animated {
 	
 	[self layoutTokensAnimated:animated];
-	
+
 	if (resultsModeEnabled != flag){
 		
 		//Hide / show the shadow
@@ -747,11 +761,13 @@ NSString * const kTextHidden = @"\u200D"; // Zero-Width Joiner
 		UIScrollView * scrollView = self.scrollView;
 		[scrollView setScrollsToTop:!flag];
 		[scrollView setScrollEnabled:!flag];
-		
-		CGFloat offset = ((numberOfLines == 1 || !flag) ? 0 : tokenCaret.y - floor(self.font.lineHeight * 4 / 7) + 1);
-		[scrollView setContentOffset:CGPointMake(0, self.frame.origin.y + offset) animated:animated];
+    
+    //@photolabmodified
+//		CGFloat offset = ((numberOfLines == 1 || !flag) ? 0 : tokenCaret.y - floor(self.font.lineHeight * 4 / 7) + 1);
+//		[scrollView setContentOffset:CGPointMake(0, self.frame.origin.y + offset) animated:animated];
+    //@endphotolabmodified
 	}
-	
+
 	resultsModeEnabled = flag;
 }
 
