@@ -253,11 +253,16 @@
 }
 
 - (void)tokenFieldFrameWillChange:(TITokenField *)field {
-	
-	CGFloat tokenFieldBottom = CGRectGetMaxY(tokenField.frame);
+  
+  if (self.tokenFieldPosition == TITokenFieldPositionTop) {
+    CGFloat tokenFieldBottom = CGRectGetMaxY(tokenField.frame);
     [separator setFrame:((CGRect){{separator.frame.origin.x, tokenFieldBottom}, separator.bounds.size})];
     [resultsTable setFrame:((CGRect){{resultsTable.frame.origin.x, (tokenFieldBottom + 1)}, resultsTable.bounds.size})];
     [contentView setFrame:((CGRect){{contentView.frame.origin.x, (tokenFieldBottom + 1)}, contentView.bounds.size})];
+  } else if (self.tokenFieldPosition == TITokenFieldPositionBottom){
+    [tokenField setY:self.bounds.size.height - 216 - field.frame.size.height];
+  }
+	
 }
 
 - (void)tokenFieldFrameDidChange:(TITokenField *)field {
