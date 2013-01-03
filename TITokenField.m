@@ -157,7 +157,6 @@
     [self.tokenField setY: distanceFromTop];
     [self.separator  setY: distanceFromTop - 1];
     [self.resultsTable setY:0];
-//    [self.resultsTable setHeight:500];
   }
   tokenFieldPosition = aTokenFieldPosition;
 }
@@ -167,7 +166,7 @@
 	
 	[super layoutSubviews];
 	
-	CGFloat relativeFieldHeight = CGRectGetMaxY(tokenField.frame) - self.contentOffset.y;
+	CGFloat relativeFieldHeight = tokenField.frame.size.height - self.contentOffset.y;
 	CGFloat newHeight = self.bounds.size.height - relativeFieldHeight;
 	if (newHeight > -1) [resultsTable setFrame:((CGRect){resultsTable.frame.origin, {resultsTable.bounds.size.width, newHeight}})];
 }
