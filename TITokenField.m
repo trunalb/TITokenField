@@ -153,7 +153,7 @@
   
   if (aTokenFieldPosition == TITokenFieldPositionBottom) {
     //change the frame
-    CGFloat distanceFromTop = [PhotozUtil screenHeight] - 216 - self.tokenField.height;
+    CGFloat distanceFromTop = [PhotozUtil screenHeight] - 216 - [[UIApplication sharedApplication] statusBarFrame].size.height - 44/*navcontroller height*/ - self.tokenField.height;
     [self.tokenField setY: distanceFromTop];
     [self.separator  setY: distanceFromTop - 1];
     [self.resultsTable setY:0];
